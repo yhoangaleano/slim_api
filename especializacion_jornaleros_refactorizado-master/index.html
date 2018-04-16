@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Jornaleros</title>
+
+    <link rel="stylesheet" href="./css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="./css/fa-solid.min.css">
+
+    <link rel="stylesheet" href="./css/fa-regular.min.css">
+
+    <link rel="stylesheet" href="./css/fa-brands.min.css">
+
+    <link rel="stylesheet" href="./css/fontawesome-all.min.css">
+
+    <link rel="stylesheet" href="./css/alertify.min.css">
+
+    <link rel="stylesheet" href="./css/themes/bootstrap.min.css">
+
+    <style>
+        body {
+            padding-top: 60px;
+        }
+
+        .ajs-ok {
+            background: red;
+            color: white;
+        }
+
+        .ocultar{
+            display: none;
+        }
+
+        .visualizar{
+            display: block;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-6">
+
+                <h1 class="text-center">
+                    Finca la Cristalina
+                </h1>
+
+                <form id="formJornaleros">
+
+                    <div class="form-group ocultar" id="fgCodigoJornalero">
+                        <label for="txtCodigo">
+                            Código Jornalero
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input id="txtCodigo" type="number" readonly disabled class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtNombre">
+                            Nombre
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="text" class="form-control" id="txtNombre" name="txtNombre" placeholder="Ejm: Yhoan Galeano" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtCorreoElectronico">
+                            Correo Electrónico
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="email" class="form-control" id="txtCorreoElectronico" name="txtCorreoElectronico" placeholder="Ejm: yhoangaleano@gmail.com"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtFechaNacimiento">
+                            Fecha Nacimiento
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="date" class="form-control" id="txtFechaNacimiento" name="txtFechaNacimiento" placeholder="Ejm: 05/07/1993" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtPeso">
+                            Peso
+                            <span class="text-danger">*</span>
+                        </label>
+                        <input type="number" class="form-control" id="txtPeso" name="txtPeso" placeholder="Ejm: 69" required>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-secondary btn-block" id="btnCancelar">
+                                    Cancelar
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <button id="btnGuardar" type="submit" class="btn btn-success btn-block">
+                                    Guardar
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+            <div class="col-md-6">
+
+                <img src="./img/imgFinca.jpg" alt="Finca Jornaleros" class="img-fluid">
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="table-responsive">
+
+                    <table id="tblJornaleros" class="table table-hover">
+
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Código Jornalero</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Correo Electrónico</th>
+                                <th scope="col">Fecha de Nacimiento</th>
+                                <th scope="col">Peso</th>
+                                <th scope="col">Opciones</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <th class="text-center" scope="row">1</th>
+                                <td>Yhoan Galeano</td>
+                                <td>yhoangaleano@gmail.com</td>
+                                <td>05/07/1993</td>
+                                <td>69Kg</td>
+                                <td>
+                                    <button class="btn btn-primary">
+                                        <i class="fa fa-edit"></i>
+                                        Editar
+                                    </button>
+
+                                    <button class="btn btn-danger">
+                                        <i class="fa fa-trash-alt"></i>
+                                        Eliminar
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script src="./js/jquery-3.2.1.slim.min.js"></script>
+    <script src="./js/popper.min.js"></script>
+    <script src="./js/bootstrap.min.js"></script>
+    <script src="./js/alertify.min.js"></script>
+
+    <script src="./js/app.js"></script>
+
+</body>
+
+</html>
