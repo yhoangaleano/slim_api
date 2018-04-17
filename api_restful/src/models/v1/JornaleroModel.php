@@ -71,6 +71,10 @@ class JornaleroModel{
             $idJornalero = $jornalero['idJornalero'];
             unset($jornalero['idJornalero']);
 
+            $jornalero['fechaNacimiento'] = date("Y-m-d", strtotime($jornalero['fechaNacimiento']));
+
+            $jornalero['actualizado'] = date("Y-m-d H:i:s");
+
             return $this->fluentpdo->update($this->tblJornalero)->set($jornalero)->where('idJornalero', $idJornalero)->execute();
 
         }catch(Exception $e){

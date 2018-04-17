@@ -5,7 +5,9 @@ $base = __DIR__ . '/../src/';
 $carpetas = [
     'libs',
     'models/v1',
-    'validations',
+    'models/v1',
+    'models/v2',    
+    'validations/v1',
     'controllers/v1',
     'middlewares',
     'routes'
