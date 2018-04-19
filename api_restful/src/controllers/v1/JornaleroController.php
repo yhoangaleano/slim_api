@@ -28,6 +28,7 @@ class JornaleroController{
         $app->get('/{idJornalero:[0-9]+}', [$this, 'readJornalero']);
         $app->put('/{idJornalero:[0-9]+}', [$this, 'updateJornalero']);
         $app->delete('/{idJornalero:[0-9]+}', [$this, 'deleteJornalero']);
+        $app->post('/sync', [$this, 'syncJornaleros']);
         
     }
 
@@ -201,6 +202,43 @@ class JornaleroController{
         }catch(Exception $e){
 
             $this->app->logger->error("Jornaleros App - Ruta: DELETE v1/jornaleros Controlador JornaleroController: deleteJornalero Error: " . $e->getMessage());
+
+            $this->utilResponse->setResponse(false, "Ocurrio un error inesperado, por favor comuniquese con el administrador del sitio.");
+            return $this->response->withJson($this->utilResponse, 500);
+
+        }
+
+    }
+
+    public function syncJornaleros(Request $request, Response $response){
+
+        $datos = $request->getParsedBody();
+        $this->utilResponse = new UtilResponse();
+        $datosSync = array();
+
+        try{
+
+            foreach ($datos as $jornalero) {
+                $validation = JornaleroValidation::validate( $jornalero );
+                if($validation->result == false){
+                    return $response->withJson( $validation, 422 );
+                }
+            }
+
+            foreach ($datos as $jornalero) {
+                
+                $idJornalero = $this->jornaleroModel->createJornalero( $jornalero );
+                array_push( $datosSync, $this->jornaleroModel->readJornalero( $idJornalero ) );
+
+            }
+
+            $this->utilResponse->setResponse( true, 'Los siguientes jornaleros han sido sincronizados' );
+            $this->utilResponse->object = $datosSync;
+            return $response->withJson( $this->utilResponse, 201 );
+
+        }catch(Exception $e){
+
+            $this->app->logger->error("Jornaleros App - Ruta: POST v1/jornaleros Controlador JornaleroController: syncJornaleros Error: " . $e->getMessage());
 
             $this->utilResponse->setResponse(false, "Ocurrio un error inesperado, por favor comuniquese con el administrador del sitio.");
             return $this->response->withJson($this->utilResponse, 500);

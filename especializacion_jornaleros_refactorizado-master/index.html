@@ -21,6 +21,8 @@
 
     <link rel="stylesheet" href="./css/themes/bootstrap.min.css">
 
+    <link rel="stylesheet" href="./css/animate.css">
+
     <style>
         body {
             padding-top: 60px;
@@ -39,11 +41,47 @@
             display: block;
         }
 
+        .btn-sync{
+
+            position: fixed;
+            top: 20px;
+            left: 15px;
+            z-index: 999;
+
+            animation-name: shake-delay;
+            animation-duration: 5s;
+            animation-iteration-count: infinite;
+
+        }
+
+        @keyframes shake-delay {
+
+            from, 16%, to{
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+            }
+
+            1.6%, 4.8%, 8%, 11.2%, 14.4%{
+                -webkit-transform: translate3d(-10px, 0, 0);
+                transform: translate3d(-10px, 0, 0);
+            }
+
+            3.2%, 6.4%, 9.6%, 12.8%{
+                -webkit-transform: translate3d(10px, 0, 0);
+                transform: translate3d(10px, 0, 0);
+            }
+            
+        }
+
     </style>
 
 </head>
 
 <body>
+
+    <button id="btnSincronizar" type="button" class="btn btn-info btn-sync animated shake" data-toggle="tooltip" data-placement="right" title="Sincronizar los datos de los jornaleros">
+        <i class="fa fa-sync"></i>
+    </button>
 
     <div class="container">
 

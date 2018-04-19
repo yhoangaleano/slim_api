@@ -10,9 +10,37 @@ if (bdJornaleros === null) {
     bdJornaleros = [];
 }
 
+
+function conecction() {
+
+    var canSync = navigator.onLine;
+
+    if (canSync) {
+        alertify.success('Estas conectado!!!.');
+        $('#btnSincronizar').removeClass('ocultar').addClass('visualizar');
+    } else {
+        alertify.message('No tienes conexión a internet.');
+        $('#btnSincronizar').removeClass('visualizar').addClass('ocultar');
+    }
+
+}
+
+window.addEventListener('offline', function () {
+    conecction();
+});
+
+window.addEventListener('online', function () {
+    conecction();
+});
+
+
 $(document).ready(function () {
 
     listar();
+
+    conecction();
+
+    $('[data-toggle="tooltip"]').tooltip();
 
     $('#formJornaleros').on('submit', function (event) {
         event.preventDefault();
@@ -24,13 +52,17 @@ $(document).ready(function () {
         if (codigoJornalero == '') {
             guardar();
             listar();
-        }else{
+        } else {
             actualizar(codigoJornalero);
         }
     });
 
     $('#btnCancelar').on('click', function () {
         limpiar();
+    });
+
+    $('#btnSincronizar').on('click', function(){
+        sync();
     })
 
 });
@@ -152,10 +184,10 @@ function eliminar(codigoJornalero) {
     listar();
 }
 
-function actualizar(codigoJornalero){
+function actualizar(codigoJornalero) {
 
-    bdJornaleros.map(function(jornalero){
-        if(jornalero.codigo == codigoJornalero){
+    bdJornaleros.map(function (jornalero) {
+        if (jornalero.codigo == codigoJornalero) {
             jornalero.nombre = $('#txtNombre').val();
             jornalero.correoElectronico = $('#txtCorreoElectronico').val();
             jornalero.fechaNacimiento = $('#txtFechaNacimiento').val();
@@ -169,5 +201,48 @@ function actualizar(codigoJornalero){
     limpiar();
     listar();
     alertify.success(`Jornalero con código: ${codigoJornalero} ha sido modificado con éxito.`);
+
+}
+
+function sync() {
+
+    var jornaleros = bdJornaleros;
+
+    jornaleros.map(function (jornalero) {
+
+        var fecha = jornalero.fechaNacimiento.split('-');
+        jornalero.fechaNacimiento = `${fecha[2]}/${fecha[1]}/${fecha[0]}`;
+        jornalero.nombres = jornalero.nombre;
+        delete jornalero.nombre;
+        delete jornalero.codigo;
+        return jornalero;
+
+    });
+
+    var url = 'http://localhost:80/api_restful/public/v1/jornaleros/sync';
+    var parametros = {
+        method: 'post',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json;charset=UTF-8'
+        },
+        body: JSON.stringify(jornaleros)
+    }
+
+    fetch(url, parametros)
+        .then(respuesta => respuesta.json())
+        .then(datos => {
+            console.log(datos);
+            alertify.success('Los jornaleros han sido sincronizados con éxito');
+            bdJornaleros = [];
+
+            var bdJornalerosString = JSON.stringify(bdJornaleros);
+            localStorage.setItem('bdJornaleros', bdJornalerosString);
+            listar();
+        })
+        .catch(error => {
+            console.log(`Ocurrio un error inesperado: ${e}`);
+            alertify.message('Los jornaleros no fueron sincronizados');
+        });
 
 }
